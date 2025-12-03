@@ -12,23 +12,42 @@
 ## 📁 项目结构
 
 JHTE-Platform/
+
 ├── python/                    # 内置Python环境（已安装所需库）
+
 │   ├── python.exe            # Windows可执行文件
+
 │   ├── Scripts/              # 脚本文件夹（包含pip等）
+
 │   └── Lib/                  # 已安装的库
+
 ├── templates/                # 前端模板文件
+
 │   ├── index.html            # 主页面
+
 │   ├── css/                  # 样式表(暂未加入)
+
 │   │   └── style.css
+
 │   ├── js/                   # 前端脚本(暂未加入)
+
 │   │   └── script.js
+
 │   └── images/               # 图片资源
+
 ├── other/                    # 其他资源
+
 ├── app.py                    # 后端主程序
+
 ├── requirements.txt          # 依赖列表（备用）
+
 ├── start_windows.bat         # Windows启动脚本
+
 ├── start_linux.sh            # Linux启动脚本(暂未加入)
+
 ├── start_mac.sh              # Mac启动脚本(暂未加入)
+
+
 └── README.md                 # 项目说明
 
 ## 🚀 快速开始
