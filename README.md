@@ -1,6 +1,6 @@
 # JHTE 智能平台 - 独立Python版本
 
-基于 JHTE (Jin He's Tips Engineering) 方法的智能翻译与情感分析平台（暂未开发）。
+基于 JHTE (Jin He's Tips Engineering) 方法的智能翻译与情感分析平台（暂未开发）。需要Ollama安装的deepseek7b。
 
 ## 🎯 特点
 
