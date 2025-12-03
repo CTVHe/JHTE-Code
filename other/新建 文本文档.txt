@@ -1,0 +1,11 @@
+下载库：python\python.exe -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+
+
+python\python.exe app.py
+
+
+下面我需要你把我需要的句子翻译为英语，需要你完全理解语义，并且输出格式是你在"###"后输出你的英文结果，"$$$"后再翻译回中文，不要加任何其它符号。句子是"我今天真的很开心，但是要上课"
+
+
+
+下面我需要你把我需要的句子翻译为英语，需要你完全理解语义，并且不要包含任何其它符号，句子是"我今天真的很开心，但是要上课"

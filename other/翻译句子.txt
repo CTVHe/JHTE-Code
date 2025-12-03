@@ -1,0 +1,31 @@
+翻译结果: 
+I believe there should be someone who can understand my technical capabilities because it is truly understanding the semantics.
+原文: 我觉得应该有人可以懂我这个技术的能力，毕竟是真的理解了语义的
+
+翻译结果: 
+Alas, I really wish someone could provide computing power! Regrettably, I don't know what to do next.
+原文: 唉，真希望有人提供算力啊！可惜不知道怎么办
+
+翻译结果: 
+Finally, I understand the working logic of the webpage. I will start writing the webpage. Great!
+原文: 终于明白了网页的运行逻辑，而且我也会进行网页的编写了，太好了
+
+翻译结果: 
+Moreover, this JHTE tool will not significantly increase the runtime for long sentences, but short sentences still require a few minutes of translation time, mainly due to limited computational power and only 16GB of RAM available on my computer.
+原文: 而且，我这个JHTE，对于长句子的运行时间，不会增加太多，只是短句子也要翻译几分钟，但毕竟是因为我的电脑的算力太小，只有16GB内存
+
+翻译结果: 
+Search for a way, fail to find it; seek but cannot attain; probe yet gain nothing.
+原文: 寻而无路，求而无果，探而无义
+
+
+翻译结果: 
+Is my cognition correct, how fact be so it is no longer fuzzy, at least I can't derive another result.
+Mein Erkenntnisvermögen ist korrekt, die Tatsache bleibt unveränderlich.
+Ma connaissance n’est-elle pas exacte ? Comment les faits sont-ils ? Peut-être que plus longtemps, l’absence de confusion sera sans limites, au moins, je ne trouve pas d’autre conclusion possible.
+原文: 我的认知是否正确，事实是如何，可能再也未必模糊了，至少我推导不出另一种结果
+
+I’m wondering if my understanding is correct, and what the facts are? At least I can’t derive another result. May never be so fuzzy anymore.
+Is my cognition correct, how are the facts, may not remain fuzzy at least I cannot deduce another result.
+
+

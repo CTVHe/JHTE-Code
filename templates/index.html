@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JHTE 智能处理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: white;
+            border-bottom: 3px solid #3498db;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        textarea:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            white-space: pre-wrap;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 情感分析可视化样式 */
+        .sentiment-visualization {
+            margin-top: 15px;
+        }
+        
+        .aspect-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .aspect-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        
+        .sentiment-bar {
+            height: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ecf0f1;
+            position: relative;
+        }
+        
+        .sentiment-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+        
+        .positive {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+        }
+        
+        .negative {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+        
+        .neutral {
+            background: linear-gradient(90deg, #95a5a6, #7f8c8d);
+        }
+        
+        .sentiment-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .sentiment-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        .positive-stat .stat-value {
+            color: #27ae60;
+        }
+        
+        .negative-stat .stat-value {
+            color: #c0392b;
+        }
+        
+        .neutral-stat .stat-value {
+            color: #7f8c8d;
+        }
+        
+        .overall-sentiment {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .overall-positive {
+            background: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+        
+        .overall-negative {
+            background: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+        
+        .overall-neutral {
+            background: rgba(149, 165, 166, 0.2);
+            color: #7f8c8d;
+        }
+        
+        .overall-mixed {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f39c12;
+        }
+        
+        .confidence {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        .score-display {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>JHTE 智能平台</h1>
+            <div>基于 JHTE 方法的智能翻译与情感分析</div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('translate')">智能翻译</button>
+            <button class="tab" onclick="switchTab('sentiment')">情感分析</button>
+        </div>
+        
+        <div class="content">
+            <!-- 翻译功能 -->
+            <div id="translate-tab" class="tab-content active">
+                <div class="input-group">
+                    <label for="source-text">输入要翻译的文本：</label>
+                    <textarea id="source-text" placeholder="请输入要翻译的文本..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="target-language">目标语言：</label>
+                    <select id="target-language">
+                        <option value="英语">英语</option>
+                        <option value="日语">日语</option>
+                        <option value="韩语">韩语</option>
+                        <option value="法语">法语</option>
+                        <option value="德语">德语</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="translateText()">开始翻译</button>
+                
+                <div class="loading" id="translate-loading">
+                    <div class="spinner"></div>
+                    <div>JHTE 正在深度理解并翻译...</div>
+                </div>
+                
+                <div class="result" id="translate-result">
+                    <h3>翻译结果：</h3>
+                    <div id="translation-output"></div>
+                </div>
+            </div>
+            
+            <!-- 情感分析功能 -->
+            <div id="sentiment-tab" class="tab-content">
+                <div class="input-group">
+                    <label for="sentiment-text">输入要分析的文本：</label>
+                    <textarea id="sentiment-text" placeholder="例如：这家餐厅的食物很好吃，但服务很差，价格合理..."></textarea>
+                </div>
+                
+                <button class="btn" onclick="analyzeSentiment()">开始分析</button>
+                
+                <div class="loading" id="sentiment-loading">
+                    <div class="spinner"></div>
+                    <div>JHTE 正在深度理解语义并分析情感...</div>
+                </div>
+                
+                <div class="result" id="sentiment-result">
+                    <h3>情感分析结果：</h3>
+                    <div id="sentiment-output"></div>
+                    <div class="sentiment-visualization" id="sentiment-visualization"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // 隐藏所有标签内容
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 移除所有标签的激活状态
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // 显示选中的标签内容
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // 激活选中的标签
+            event.target.classList.add('active');
+        }
+        
+        async function translateText() {
+            const text = document.getElementById('source-text').value.trim();
+            const targetLang = document.getElementById('target-language').value;
+            
+            if (!text) {
+                alert('请输入要翻译的文本');
+                return;
+            }
+            
+            // 显示加载中
+            document.getElementById('translate-loading').style.display = 'block';
+            document.getElementById('translate-result').style.display = 'none';
+            
+            try {
+                const response = await fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        target_lang: targetLang
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // 隐藏加载中
+                document.getElementById('translate-loading').style.display = 'none';
+                
+                if (data.success) {
+                    document.getElementById('translation-output').textContent = data.result;
+                    document.getElementById('translate-result').style.display = 'block';
+                } else {
+                    alert(data.error || '翻译失败，请重试');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('translate-loading').style.display = 'none';
+                alert('网络错误，请检查连接后重试');
+            }
+        }
+        
+        async function analyzeSentiment() {
+            const text = document.getElementById('sentiment-text').value.trim();
+            
+            if (!text) {
+                alert('请输入要分析的文本');
+                return;
+            }
+            
+            // 显示加载中
+            document.getElementById('sentiment-loading').style.display = 'block';
+            document.getElementById('sentiment-result').style.display = 'none';
+            
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // 隐藏加载中
+                document.getElementById('sentiment-loading').style.display = 'none';
+                
+                if (data.success) {
+                    displaySentimentResults(data.result);
+                    document.getElementById('sentiment-result').style.display = 'block';
+                } else {
+                    alert(data.error || '分析失败，请重试');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('sentiment-loading').style.display = 'none';
+                alert('网络错误，请检查连接后重试');
+            }
+        }
+        
+        function displaySentimentResults(result) {
+            const output = document.getElementById('sentiment-output');
+            const visualization = document.getElementById('sentiment-visualization');
+            
+            // 显示原始数据
+            output.textContent = JSON.stringify(result, null, 2);
+            
+            // 统计情感分布
+            let positiveCount = 0;
+            let negativeCount = 0;
+            let neutralCount = 0;
+            let totalScore = 0;
+            let aspectCount = 0;
+            
+            // 计算各种情感的数量和平均分数
+            for (const [aspect, data] of Object.entries(result)) {
+                const sentiment = data.sentiment;
+                const score = data.score;
+                
+                if (sentiment === '正面') {
+                    positiveCount++;
+                } else if (sentiment === '负面') {
+                    negativeCount++;
+                } else {
+                    neutralCount++;
+                }
+                
+                totalScore += score;
+                aspectCount++;
+            }
+            
+            const totalAspects = Object.keys(result).length;
+            const averageScore = aspectCount > 0 ? (totalScore / aspectCount).toFixed(2) : 0;
+            
+            // 计算情感比例
+            const positivePercent = totalAspects > 0 ? (positiveCount / totalAspects * 100).toFixed(1) : 0;
+            const negativePercent = totalAspects > 0 ? (negativeCount / totalAspects * 100).toFixed(1) : 0;
+            const neutralPercent = totalAspects > 0 ? (neutralCount / totalAspects * 100).toFixed(1) : 0;
+            
+            // 确定整体情感倾向
+            let overallSentiment = "中性";
+            let overallClass = "overall-neutral";
+            
+            if (positiveCount > negativeCount && positiveCount > neutralCount) {
+                overallSentiment = "总体积极";
+                overallClass = "overall-positive";
+            } else if (negativeCount > positiveCount && negativeCount > neutralCount) {
+                overallSentiment = "总体消极";
+                overallClass = "overall-negative";
+            } else if (positiveCount > 0 && negativeCount > 0) {
+                overallSentiment = "混合情感";
+                overallClass = "overall-mixed";
+            }
+            
+            // 创建可视化HTML
+            let visualizationHTML = '';
+            
+            // 添加总体情感判断
+            visualizationHTML += `<div class="overall-sentiment ${overallClass}">${overallSentiment} (平均置信度: ${averageScore})</div>`;
+            
+            // 添加统计信息
+            visualizationHTML += `
+                <div class="sentiment-stats">
+                    <div class="stat-item positive-stat">
+                        <span class="stat-value">${positiveCount}</span>
+                        <span class="stat-label">正面 (${positivePercent}%)</span>
+                    </div>
+                    <div class="stat-item negative-stat">
+                        <span class="stat-value">${negativeCount}</span>
+                        <span class="stat-label">负面 (${negativePercent}%)</span>
+                    </div>
+                    <div class="stat-item neutral-stat">
+                        <span class="stat-value">${neutralCount}</span>
+                        <span class="stat-label">中性 (${neutralPercent}%)</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${totalAspects}</span>
+                        <span class="stat-label">总计</span>
+                    </div>
+                </div>
+            `;
+            
+            // 为每个方面创建可视化项
+            visualizationHTML += '<h4>详细分析:</h4>';
+            for (const [aspect, data] of Object.entries(result)) {
+                const sentiment = data.sentiment;
+                const score = data.score;
+                const scorePercent = (score * 100).toFixed(0);
+                
+                let sentimentClass = '';
+                
+                if (sentiment === '正面') {
+                    sentimentClass = 'positive';
+                } else if (sentiment === '负面') {
+                    sentimentClass = 'negative';
+                } else {
+                    sentimentClass = 'neutral';
+                }
+                
+                visualizationHTML += `
+                    <div class="aspect-item">
+                        <div class="aspect-name">${aspect}</div>
+                        <div class="sentiment-bar">
+                            <div class="sentiment-fill ${sentimentClass}" style="width: ${scorePercent}%">
+                                <div class="sentiment-label">${sentiment}</div>
+                                <div class="score-display">${score.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="confidence">置信度: ${score.toFixed(2)}</div>
+                    </div>
+                `;
+            }
+            
+            visualization.innerHTML = visualizationHTML;
+        }
+    </script>
+</body>
+</html>
